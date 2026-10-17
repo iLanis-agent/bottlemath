@@ -1,0 +1,105 @@
+[
+  {
+    "fn": "bagTruth",
+    "args": [
+      87,
+      5
+    ],
+    "expected": "87 cans at 5 cents each bring back $4.35."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      0,
+      5
+    ],
+    "expected": "No cans, no refund - the bag is just a bag."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      24,
+      10
+    ],
+    "expected": "24 cans at 10 cents each bring back $2.40."
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      -3,
+      5
+    ],
+    "expected": "ERR:the can count must be zero or more"
+  },
+  {
+    "fn": "bagTruth",
+    "args": [
+      87,
+      0
+    ],
+    "expected": "ERR:the deposit must be more than 0 cents"
+  },
+  {
+    "fn": "tripTruth",
+    "args": [
+      87,
+      5,
+      3.0
+    ],
+    "expected": "The cans bring back $4.35 against a $3.00 trip - $1.35 ahead."
+  },
+  {
+    "fn": "tripTruth",
+    "args": [
+      20,
+      5,
+      2.65
+    ],
+    "expected": "The cans bring back $1.00 against a $2.65 trip - $1.65 behind, the detour costs more than the cans bring back."
+  },
+  {
+    "fn": "tripTruth",
+    "args": [
+      50,
+      5,
+      2.5
+    ],
+    "expected": "The cans bring back $2.50 against a $2.50 trip - a wash, the trip costs exactly what the cans bring back."
+  },
+  {
+    "fn": "tripTruth",
+    "args": [
+      87,
+      5,
+      -1
+    ],
+    "expected": "ERR:the trip cost must be zero or more"
+  },
+  {
+    "fn": "stashTruth",
+    "args": [
+      15,
+      52,
+      5
+    ],
+    "expected": "15 cans a week for 52 weeks is 780 cans - $39.00 at the deposit, or a growing corner of the garage."
+  },
+  {
+    "fn": "stashTruth",
+    "args": [
+      1,
+      1,
+      10
+    ],
+    "expected": "1 can a week for 1 week is 1 can - $0.10 at the deposit, or a growing corner of the garage."
+  },
+  {
+    "fn": "stashTruth",
+    "args": [
+      15,
+      0,
+      5
+    ],
+    "expected": "ERR:weeks must be at least 1"
+  }
+]
