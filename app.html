@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bottle Math - app</title>
+<style>
+  :root { --accent:#3e6b3f; --ink:#212a20; --paper:#f6f9f4; --soft:#e7efe2; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, 'Times New Roman', serif; background:var(--paper); color:var(--ink); line-height:1.55; padding:2rem 1.2rem; }
+  main { max-width:660px; margin:0 auto; }
+  h1 { font-size:1.8rem; color:var(--accent); }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; margin:1rem 0 1.4rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  .panel { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1rem 1.1rem; margin-bottom:1.1rem; }
+  h2 { font-size:1.1rem; margin-bottom:.6rem; }
+  p.note { font-size:.9rem; margin-bottom:.4rem; }
+  label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
+  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #b8cbb1; border-radius:6px; background:#fff; color:var(--ink); }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #b8cbb1; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; }
+  .out.err { border-color:#b03030; color:#8a1f1f; font-style:normal; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#5c6a58; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Bottle Math</h1>
+  <div class="boundary">
+    <strong>Boundary: counting arithmetic only</strong>
+    Your counts, your deposit rate, your trip cost. This page never tells you whether a trip is worth your time.
+  </div>
+
+  <div class="panel">
+    <h2>The bag truth</h2>
+    <p class="note">What the cans actually bring back.</p>
+    <label for="b-cans">Cans or bottles</label>
+    <input id="b-cans" type="number" min="0" step="1" value="87">
+    <label for="b-dep">Deposit each (cents)</label>
+    <input id="b-dep" type="number" min="1" step="1" value="5">
+    <div class="out" id="b-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The trip truth</h2>
+    <p class="note">The refund against what the detour costs you.</p>
+    <label for="t-cans">Cans or bottles</label>
+    <input id="t-cans" type="number" min="0" step="1" value="87">
+    <label for="t-dep">Deposit each (cents)</label>
+    <input id="t-dep" type="number" min="1" step="1" value="5">
+    <label for="t-cost">Trip cost (dollars)</label>
+    <input id="t-cost" type="number" min="0" step="0.01" value="3.00">
+    <div class="out" id="t-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The stash truth</h2>
+    <p class="note">What a habit builds into.</p>
+    <label for="s-rate">Cans a week</label>
+    <input id="s-rate" type="number" min="0" step="1" value="15">
+    <label for="s-weeks">Weeks</label>
+    <input id="s-weeks" type="number" min="1" step="1" value="52">
+    <label for="s-dep">Deposit each (cents)</label>
+    <input id="s-dep" type="number" min="1" step="1" value="5">
+    <div class="out" id="s-out"></div>
+  </div>
+
+  <footer>Bottle Math is exact arithmetic over your counts, your deposit rate, and your trip cost. <a href="index.html">Why it exists</a>.</footer>
+</main>
+<script src="engine.js"></script>
+<script>
+  const num = (id) => Number(document.getElementById(id).value);
+  function show(out, fn) {
+    try {
+      const text = fn();
+      out.textContent = text;
+      out.classList.remove("err");
+    } catch (e) {
+      out.textContent = e.message;
+      out.classList.add("err");
+    }
+  }
+  const bOut = document.getElementById("b-out");
+  const tOut = document.getElementById("t-out");
+  const sOut = document.getElementById("s-out");
+  function recalc() {
+    show(bOut, () => bagTruth(num("b-cans"), num("b-dep")));
+    show(tOut, () => tripTruth(num("t-cans"), num("t-dep"), num("t-cost")));
+    show(sOut, () => stashTruth(num("s-rate"), num("s-weeks"), num("s-dep")));
+  }
+  document.querySelectorAll("input").forEach((el) => {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+</script>
+</body>
+</html>
